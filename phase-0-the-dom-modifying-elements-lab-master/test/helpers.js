@@ -1,23 +1,30 @@
-const chai = require('chai')
-global.expect = chai.expect
-const fs = require('fs')
-const jsdom = require('mocha-jsdom')
-const path = require('path')
+const chai = require('chai');
+global.expect = chai.expect;
+const fs = require('fs');
+const jsdom = require('mocha-jsdom');
+const path = require('path');
 const babel = require('babel-core');
 
-const html = fs.readFileSync(path.resolve(__dirname, '..', 'index.html'), 'utf-8')
+const html = fs.readFileSync(path.resolve(__dirname, '..', 'index.html'), 'utf-8');
 
 const babelResult = babel.transformFileSync(
-  path.resolve(__dirname, '..', 'index.js'), {
+  path.resolve(__dirname, '..', 'index.js'),
+  {
     presets: ['env']
   }
 );
 
-const src = babelResult.code
+const src = babelResult.code;
 
-jsdom({
-  html, src
+describe('index.js', () => {
+  jsdom({
+    html,
+    src
+  });
+
+  let newHeader = document.createElement('h1');
+  newHeader.id = 'victory';
+  newHeader.textContent = 'Valencia Walker is the champion';
+
+  // Add your test cases here
 });
-let newHeader = document.createElement('h1');
-newHeader.id = 'victory';
-newHeader.textContent = 'Valencia Walker is the champion';
